@@ -52,6 +52,7 @@ function populateBooks(arr) {
         const title = document.createElement('h2')
         const author = document.createElement('h3')
         const div = document.createElement('div')
+        const features = document.createElement('div')
         const description = document.createElement('p')
         const deleteBtn = document.createElement('button')
         card.classList.toggle('card')
@@ -65,6 +66,7 @@ function populateBooks(arr) {
         div.append(description)
         card.append(div)
         card.append(deleteBtn)
+        card.append(features)
         cardContainer.append(card)
     })
 }
