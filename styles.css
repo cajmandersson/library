@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    font-weight: 300;
 }
 
 #container {
@@ -29,7 +30,7 @@
 }
 
 .active-genre {
-    border-left: 5px solid #8b5cf6;
+    border-left: 5px solid #e11d48;
     padding-left: 20px;
 }
 
@@ -123,11 +124,6 @@
     margin-right: 15px;
 }
 
-.material-icons#add { 
-    color: #10b981; 
-    font-size: 3rem;
- 
-}
 
 #card-container {
     overflow: auto;
@@ -139,14 +135,6 @@
     
 }
 
-#card-container > button {
-    border-radius: 10px;
-    border: none;
-    background-color: #ecfdf5;
-    cursor: pointer;
-    border: 1px solid #cbd5e1;
-}
-
 .card {
     height: 300px;
     padding: 15px 15px;
@@ -156,19 +144,71 @@
     width: auto;
     display: grid;
     grid-template-columns: 1fr 20px;
+    grid-template-rows: 1fr 40px;
+    grid-template-areas: 
+    "text close"
+    "buttons buttons";
 }
 
-.card > button {
+.hide {display: none}
+
+
+
+#addCard {
+    height: 330px;
+    border: none;
+    padding: 0px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+#addCard> button {
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ecfdf5;
+    cursor: pointer;
+    border: 1px solid #cbd5e1;
+}
+
+#addCard > button > span {
+    font-size: 6rem;
+    font-weight: 300;
+    color: #10b981; 
+}
+
+.closeBtn {
+    grid-area: close;
     background-color: white;
-    width: 30px;
-    height: 30px;
     justify-self: end;
+    align-self: start;
     border: none;
     cursor: pointer;
+    margin: 10px;
+}
+
+.bottomBtns {
+    grid-area: buttons;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}
+
+.bottomBtns > button {
+    background-color: white;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.likeBtn {
+    color: #e11d48;
 }
 
 
 .card-text {
+    grid-area: text;
     margin-top: 10px;
 }
 

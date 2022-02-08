@@ -25,7 +25,7 @@
                 <input type="text" name="search" id="search" placeholder="Search for titles, authors or genres...">
             </div>
             <div id="userinfo">
-                <h4>Johanna Doe</h4>
+                <h4>Katie Wilks</h4>
                 <img src="./icons/arrow.png" alt="arrow icon" id="arrow">
                 <img src="./icons/avatar.png" alt="avatar" id="avatar">
             </div>
@@ -35,10 +35,18 @@
                 <h2>Books</h2>
             </div>
             <div id="card-container">
-                <button type="submit"><span class="material-icons" id="add">add</span></button>
-
+                <div id="addCard" class="card">
+                    <form action="/" method="post" class="hide" id="addForm">
+                        <input type="text" name="title" id="inputTitle" placeholder="Title">
+                        <input type="text" name="author" id="authorTitle" placeholder="Author">
+                        <input type="text" name="genre" id="genreTitle" placeholder="Genre">
+                        <input type="textarea" name="description" id="descrTitle" placeholder="Description">
+                    </form>
+                    <button type="submit" id="addBook"><span class="material-icons" id="add">add</span></button>
+                </div>
             </div>
         </div>
+    </div>
     </div>
     </div>
 </body>
