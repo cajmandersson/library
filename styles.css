@@ -108,6 +108,29 @@
     margin-bottom: 20px;
     align-items: center;
     justify-content: space-between;
+    margin-top: 40px;
+}
+
+#bookFilters {
+    margin-right: 6px;
+}
+
+#books .likeBtn,
+#books .readBtn {
+    margin-right: 30px;
+    color: #e11d48;
+    border: none;
+    background-color: #f3f4f6;
+    cursor: pointer;
+}
+
+#books .readBtn {
+    color: #9ca3af;
+}
+
+#books #isReading,
+#books #isLiked {
+    font-size: 1.8rem;
 }
 
 #books > h2 {
@@ -157,8 +180,6 @@
 }
 
 .hide {display: none}
-
-
 
 #addCard {
     height: 330px;
@@ -241,8 +262,13 @@
 
 .likeBtn {
     color: #e11d48;
+    border: none;
 }
 
+.readBtn {
+    color: #9ca3af;
+    border: none;
+}
 
 .card-text {
     grid-area: text;

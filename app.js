@@ -3,7 +3,10 @@ const genresContainer = document.querySelector('#genres')
 const search = document.querySelector('#search');
 const addBtn = document.querySelector('#addBook')
 const addBookBtn = document.querySelector('#addBookBtn')
+const likeFilter = document.querySelector('#isLikedFilter')
+const readingFilter = document.querySelector('#isReadingFilter')
 const lorem = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur, officiis maxime quos repellat obcaecati distinctio, itaque ipsam numquam aut suscipit impedit deserunt...'
+
 
 // Parameters
 let library = []
@@ -18,8 +21,18 @@ function Book(title, author, genre, description, dataIndex) {
     this.author = author
     this.genre = genre
     this.description = description
-    this.isRead = false
+    this.isReading = false
+    this.isLiked = false
 }
+
+Book.prototype.toggleReading = function () {
+    this.isReading == true ? this.isReading = false : this.isReading = true
+}
+
+Book.prototype.toggleLiked = function () {
+    this.isLiked == true ? this.isLiked = false : this.isLiked = true
+}
+
 
 function addBookToLibrary(title, author, genre, description) {
     library.unshift(new Book(title, author, genre, description, bookId))
@@ -29,6 +42,17 @@ function addBookToLibrary(title, author, genre, description) {
 const filterBooks = (query) => {
     if (query == null || query == '') {
         return library
+
+    } else if (query == 'liked') {
+        const filter = library.filter(book => book.isLiked == true)
+        console.log(filter)
+        return filter
+
+    } else if (query == 'reading') {
+        const filter = library.filter(book => book.isReading == true)
+        console.log(filter)
+        return filter
+
     } else {
         return library.filter(book => book.title.toLowerCase() == query.toLowerCase() || book.author.toLowerCase() == query.toLowerCase() || book.genre.toLowerCase() == query.toLowerCase())
     }
@@ -66,6 +90,16 @@ addBookToLibrary('Ugly Love', 'Colleen Hoover', 'Romance', lorem)
 addBookToLibrary('Seven Days in June', 'Tia Williams', 'Thriller', lorem)
 
 displayBooks(null)
+
+
+readingFilter.addEventListener('click', () => {
+    console.log('reding')
+    displayBooks('reading')
+})
+
+likeFilter.addEventListener('click', () => {
+    displayBooks('liked')
+})
 
 
 search.addEventListener('keydown', (e) => {
@@ -122,13 +156,12 @@ function createBookCard(book) {
 
     deleteBtn.classList.toggle('closeBtn')
     deleteBtn.innerHTML = `<span class="material-icons">close</span>`
-    deleteBtn.setAttribute('data-index', `${book.dataIndex}`)
 
     likeBtn.classList.toggle('likeBtn')
-    likeBtn.innerHTML = `<span class="material-icons">favorite_border</span>`
+    likeBtn.innerHTML = book.isLiked ? `<span class="material-icons">favorite</span>` : `<span class="material-icons">favorite_border</span>`
 
     readBtn.classList.toggle('readBtn')
-    readBtn.innerHTML = `<span class="material-icons">check_box_outline_blank</span>`
+    readBtn.innerHTML = book.isReading ? `<span class="material-icons">auto_stories</span>` : `<span class="material-icons">book</span>`
 
     bottomBtns.append(readBtn)
     bottomBtns.append(likeBtn)
@@ -143,7 +176,7 @@ function createBookCard(book) {
     text.append(description)
 
     deleteBtn.addEventListener('click', (e) => {
-        const bookId = e.target.parentElement.getAttribute('data-index')
+        const bookId = e.target.parentElement.parentElement.getAttribute('data-index')
         removeBookFromLibrary(bookId)
     })
 
@@ -151,21 +184,32 @@ function createBookCard(book) {
     // refactor into object
     likeBtn.addEventListener('click', (e) => {
         const element = e.target.parentElement;
+        const bookId = element.parentElement.parentElement.getAttribute('data-index');
+        const book = library.filter(book => book.dataIndex == bookId)
+
         element.classList.toggle('clicked')
         if (element.classList.contains('clicked')) {
             element.innerHTML = `<span class="material-icons">favorite</span>`
+            book[0].toggleLiked()
         } else {
             element.innerHTML = `<span class="material-icons">favorite_border</span>`
+            book[0].toggleLiked()
         }
     })
 
     readBtn.addEventListener('click', (e) => {
         const element = e.target.parentElement;
+        const bookId = element.parentElement.parentElement.getAttribute('data-index');
+        const book = library.filter(book => book.dataIndex == bookId)
+
         element.classList.toggle('clicked')
+
         if (element.classList.contains('clicked')) {
-            element.innerHTML = `<span class="material-icons">check_box</span>`
+            element.innerHTML = `<span class="material-icons">auto_stories</span>`
+            book[0].toggleReading()
         } else {
-            element.innerHTML = `<span class="material-icons">check_box_outline_blank</span>`
+            element.innerHTML = `<span class="material-icons">book</span>`
+            book[0].toggleReading()
         }
     })
 
@@ -174,10 +218,10 @@ function createBookCard(book) {
     card.classList.toggle('card')
     card.append(text)
     card.append(deleteBtn)
+    deleteBtn.parentElement.setAttribute('data-index', `${book.dataIndex}`)
     card.append(bottomBtns)
     return card;
 }
-
 
 
 
@@ -215,4 +259,5 @@ function clearGenres() {
 }
 
 displayGenres()
+
 
