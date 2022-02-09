@@ -7,14 +7,10 @@ const likeFilter = document.querySelector('#isLikedFilter')
 const readingFilter = document.querySelector('#isReadingFilter')
 const lorem = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur, officiis maxime quos repellat obcaecati distinctio, itaque ipsam numquam aut suscipit impedit deserunt...'
 
-
-// Parameters
 let library = []
 let genres = ['All']
 let bookId = 0;
 
-
-// Book Constructor
 function Book(title, author, genre, description, dataIndex) {
     this.dataIndex = dataIndex
     this.title = title
@@ -93,7 +89,6 @@ displayBooks(null)
 
 
 readingFilter.addEventListener('click', () => {
-    console.log('reding')
     displayBooks('reading')
 })
 
