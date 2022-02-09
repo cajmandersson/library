@@ -2,6 +2,7 @@ const cardContainer = document.querySelector('#card-container');
 const genresContainer = document.querySelector('#genres')
 const search = document.querySelector('#search');
 const addBtn = document.querySelector('#addBook')
+const addBookBtn = document.querySelector('#addBookBtn')
 const lorem = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur, officiis maxime quos repellat obcaecati distinctio, itaque ipsam numquam aut suscipit impedit deserunt...'
 
 // Parameters
@@ -21,7 +22,7 @@ function Book(title, author, genre, description, dataIndex) {
 }
 
 function addBookToLibrary(title, author, genre, description) {
-    library.push(new Book(title, author, genre, description, bookId))
+    library.unshift(new Book(title, author, genre, description, bookId))
     bookId++;
 }
 
@@ -75,12 +76,38 @@ search.addEventListener('keydown', (e) => {
 
 addBtn.addEventListener('click', (e) => {
     const button = e.target.parentElement
-    const form = document.querySelector('#addForm')
-    console.log(form)
+    const form = document.querySelector('#bookForm')
     button.classList.toggle('hide')
     form.classList.toggle('hide')
+    form.classList.toggle('formCard')
 })
 
+// your function
+const addBook = function (event) {
+    event.preventDefault();
+    const data = new FormData(form);
+
+    const title = data.get('title')
+    const author = data.get('author')
+    const genre = data.get('genre')
+    const description = data.get('description')
+
+    clearGenres()
+    addBookToLibrary(title, author, genre, description)
+    displayBooks(null)
+    displayGenres()
+    clearForm()
+};
+
+const form = document.getElementById("bookForm");
+
+form.addEventListener("submit", addBook, true);
+
+function clearForm() {
+    addBtn.classList.toggle('hide')
+    const form = document.querySelector('#bookForm')
+    form.classList.toggle('hide')
+}
 
 function createBookCard(book) {
     const card = document.createElement('div')
@@ -155,25 +182,37 @@ function createBookCard(book) {
 
 
 // Refactor
-
-genres.forEach((genre) => {
-    const h3 = document.createElement('h3')
-    h3.classList.toggle('genre')
-    h3.textContent = genre
-    genresContainer.append(h3);
-})
-
-genresContainer.firstElementChild.classList.add('active-genre')
-
-const genreNodes = document.querySelectorAll('.genre');
-genreNodes.forEach((genre) => {
-    genre.addEventListener('click', () => {
-        if (genre.textContent == 'All') {
-            displayBooks(null)
-        } else {
-            displayBooks(genre.textContent)
-        }
-        genreNodes.forEach(element => element.classList.remove('active-genre'))
-        genre.classList.add('active-genre')
+function displayGenres() {
+    genres.forEach((genre) => {
+        const h3 = document.createElement('h3')
+        h3.classList.toggle('genre')
+        h3.textContent = genre
+        genresContainer.append(h3);
     })
-})
+
+    genresContainer.firstElementChild.classList.add('active-genre')
+
+    const genreNodes = document.querySelectorAll('.genre');
+    genreNodes.forEach((genre) => {
+        genre.addEventListener('click', () => {
+            if (genre.textContent == 'All') {
+                displayBooks(null)
+            } else {
+                displayBooks(genre.textContent)
+            }
+            genreNodes.forEach(element => element.classList.remove('active-genre'))
+            genre.classList.add('active-genre')
+        })
+    })
+
+}
+
+function clearGenres() {
+    while (genresContainer.childElementCount >= 1) {
+        genresContainer.removeChild(genresContainer.lastChild)
+    }
+    genres = ['All']
+}
+
+displayGenres()
+
